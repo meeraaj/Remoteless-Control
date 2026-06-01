@@ -10,7 +10,6 @@ The project bridges three completely different domains: AI/Computer Vision, Loca
 2. **The Bridge (Local Wi-Fi):** When the AI detects the "Ad" badge, a Python script fires an HTTP request over the local network to a Flask server running on a Raspberry Pi.
 3. **The Brawn (Raspberry Pi & IR):** The Flask server triggers `LIRC` (Linux Infrared Remote Control), which sends a raw hex code out of GPIO 17, through an NPN transistor, and out of an IR LED to mute the Samsung TV.
 
-![System Pipeline](images/image_a7091e.jpg) 
 
 ## 🛠️ The Engineering Journey & Challenges Overcome
 
@@ -21,10 +20,10 @@ Initially, the IR LED was plugged directly into the Raspberry Pi's GPIO pin. The
 * **The Fix:** Discovered that a Pi GPIO pin maxes out at ~16mA, whereas real TV remotes pulse at 100mA+. To fix the range issue, the circuit requires an NPN Transistor (like a 2N2222) acting as an amplifier switch to pull 5V directly from the Pi's power rail, boosting the invisible IR flash to reach across the room.
 
 **Circuit Schematic:**
-![Circuit Schematic](images/Screenshot2026-06-01160426.png)
+![Circuit Schematic](images/Screenshot%202026-06-01%20160426.png)
 
 **Physical Breadboard Wiring:**
-![Breadboard Setup](images/WhatsAppImage2026-06-01at19.48.52.jpeg)
+![Breadboard Setup](images/WhatsApp%20Image%202026-06-01%20at%2019.48.52.jpeg)
 
 ### 2. Wrestling with LIRC & Kernel Drivers
 Setting up `lirc` on modern Raspberry Pi OS versions proved difficult due to driver lockouts and broken online databases.
