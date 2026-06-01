@@ -33,10 +33,10 @@ The project bridges three completely different domains: AI/Computer Vision, Loca
 Before the Pi can mute the TV, it needs to learn your specific TV remote's infrared signals using an IR Receiver module (like a TSOP38238).
 
 **Receiver Circuit Schematic:**
-![Receiver Schematic](images/Screenshot%2026-06-01%201836.png)
+![Receiver Schematic](images/Screenshot%202026-06-01%20201836.png)
 
 **Receiver Physical Breadboard Wiring:**
-![Receiver Breadboard](images/WhatsApp%Image%2026-06-01-at%20.16.03.jpeg)
+![Receiver Breadboard](images/WhatsApp%20Image%202026-06-01%20at%2020.16.03.jpeg)
 
 1. Wire the 3-pin IR Receiver: **VCC** to 3.3V, **GND** to Ground, and **DAT/OUT** to **GPIO 18** (Physical Pin 12).
 2. Edit your Pi's boot config (`/boot/firmware/config.txt`) and add: `dtoverlay=gpio-ir,gpio_pin=18`
