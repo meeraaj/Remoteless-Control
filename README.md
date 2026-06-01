@@ -29,21 +29,32 @@ The project bridges three completely different domains: AI/Computer Vision, Loca
    RPI_URL = "http://<YOUR_PI_IP_ADDRESS>:5000"
    ```
 
-### Step 3: Hardware Setup (Raspberry Pi)
-The Raspberry Pi handles the physical IR transmission. Because GPIO pins max out at ~16mA, you must use an NPN Transistor (like a 2N2222) to pull 5V directly from the Pi's power rail to give the IR LED enough range to reach the TV.
+### Step 3: Hardware Setup - Part A (Capturing Remote Codes)
+Before the Pi can mute the TV, it needs to learn your specific TV remote's infrared signals using an IR Receiver module (like a TSOP38238).
 
-**Circuit Schematic:**
-![Circuit Schematic](images/Screenshot%202026-06-01%20160426.png)
+**Receiver Circuit Schematic:**
+![Receiver Schematic](images/Screenshot-2026-06-01-201836.png)
 
-**Physical Breadboard Wiring:**
-![Breadboard Setup](images/WhatsApp%20Image%202026-06-01%20at%2019.48.52.jpeg)
+**Receiver Physical Breadboard Wiring:**
+![Receiver Breadboard](images/WhatsApp-Image-2026-06-01-at-20.16.03.jpeg)
 
-1. Wire the IR LED to **GPIO 17** (Physical Pin 11) using the transistor circuit above.
-2. Install and configure `lirc` on your Raspberry Pi with your specific TV's hex codes.
-3. Open an SSH session into your Raspberry Pi and start the Flask server:
+1. Wire the 3-pin IR Receiver: **VCC** to 3.3V, **GND** to Ground, and **DAT/OUT** to **GPIO 18** (Physical Pin 12).
+2. Edit your Pi's boot config (`/boot/firmware/config.txt`) and add: `dtoverlay=gpio-ir,gpio_pin=18`
+3. Reboot the Pi, then use the terminal to test the receiver:
    ```bash
-   python3 rpi_server.py
+   sudo systemctl stop lircd
+   mode2 -d /dev/lirc0
    ```
+4. Point your TV remote at the receiver and press "Mute". You will see raw pulse/space data appear on the screen. Map these hex codes to a `/etc/lirc/lircd.conf.d/your_tv.conf` file.
+
+### Step 5: Hardware Setup - Part B (Transmitting to the TV)
+Once the codes are captured, you can set up the transmitter. Because GPIO pins max out at ~16mA, you must use an NPN Transistor (like a 2N2222) to pull 5V directly from the Pi's power rail to give the IR LED enough range to reach the TV.
+
+**Transmitter Circuit Schematic:**
+![Transmitter Schematic](images/Screenshot%202026-06-01%20160426.png)
+
+**Transmitter Physical Breadboard Wiring:**
+![Transmitter Breadboard](images/WhatsApp%20Image%202026-06-01%20at%2019.48.52.jpeg)
 4. Leave this SSH terminal open so the server continues listening for commands.
 
 ### Step 4: Launch the System
