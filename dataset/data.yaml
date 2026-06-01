@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../train/images
+test: ../train/images
+
+nc: 1
+names: ['ad label']
+
+roboflow:
+  workspace: meeraajs-workspace
+  project: ad-label-detection-v3
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/meeraajs-workspace/ad-label-detection-v3/dataset/1
